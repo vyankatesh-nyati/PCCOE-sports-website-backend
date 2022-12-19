@@ -3,7 +3,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 // all routes related paths
-const authRoutes = require('./routes/auth');
+const authRoutes = require("./routes/auth");
+const dataRoutes = require("./routes/data");
+const studentRoutes = require("./routes/student");
 
 const app = express();
 
@@ -23,6 +25,8 @@ app.use((req, res, next) => {
 
 // all routes are initialised here
 app.use("/auth", authRoutes);
+app.use("/", dataRoutes);
+app.use("/student", studentRoutes);
 
 app.use((error, req, res, next) => {
   console.log(error);
