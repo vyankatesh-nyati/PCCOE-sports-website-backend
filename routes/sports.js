@@ -29,4 +29,7 @@ router.post(
   sportsController.remove
 );
 
+// GET /sports/fetch
+router.get("/fetch", isAuth, sportsController.fetch)
+
 module.exports = router;

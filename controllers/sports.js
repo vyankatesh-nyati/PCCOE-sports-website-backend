@@ -127,3 +127,23 @@ exports.remove = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.fetch = async (req, res, next) => {
+  try {
+    const response = await Sport.find({});
+    if (response.length > 0) {
+      res.status(200).json({
+        data: response[0],
+      });
+    } else {
+      const err = new Error("No elments present");
+      err.statusCode = 500;
+      throw err;
+    }
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
