@@ -1,7 +1,10 @@
-exports.getData = (req, res, next) => {
+const Student = require("../models/student");
+
+exports.getData = async (req, res, next) => {
   try {
+    const result = await Student.find({});
     res.status(200).json({
-      message: "Data sent successfully",
+      data: result,
     });
   } catch (error) {
     const err = new Error(error);

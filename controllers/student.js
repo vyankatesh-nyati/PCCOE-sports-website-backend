@@ -1,3 +1,4 @@
+const _ = require("lodash");
 const { validationResult } = require("express-validator");
 const Student = require("../models/student");
 
@@ -17,12 +18,13 @@ exports.signup = (req, res, next) => {
   const email = req.body.email;
   const phone = req.body.phone;
   const prn = req.body.prn;
-  const department = req.body.department;
+  const department = _.kebabCase(req.body.department);
   const division = req.body.division;
   const gender = req.body.gender;
   const indoor = req.body.indoor;
   const outdoor = req.body.outdoor;
   const name = firstName + " " + middleName + " " + lastName;
+  const year = new Date().getFullYear();
 
   const student = new Student({
     name: name,
@@ -34,14 +36,13 @@ exports.signup = (req, res, next) => {
     gender: gender,
     indoor: indoor,
     outdoor: outdoor,
+    year: year,
   });
 
   student
     .save()
     .then((result) => {
-      res
-        .status(201)
-        .json({ message: "Signup successfully.", userId: result._id });
+      res.status(201).json({ userId: result._id });
     })
     .catch((err) => {
       if (!err.statusCode) {

@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const authRoutes = require("./routes/auth");
 const dataRoutes = require("./routes/data");
 const studentRoutes = require("./routes/student");
+const queriesRoutes = require("./routes/queries");
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use((req, res, next) => {
 app.use("/auth", authRoutes);
 app.use("/", dataRoutes);
 app.use("/student", studentRoutes);
+app.use("/query", queriesRoutes);
 
 app.use((error, req, res, next) => {
   console.log(error);

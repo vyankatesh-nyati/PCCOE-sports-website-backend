@@ -29,9 +29,7 @@ exports.signup = (req, res, next) => {
       return admin.save();
     })
     .then((result) => {
-      res
-        .status(201)
-        .json({ message: "New admin created succefully", adminId: result._id });
+      res.status(201).json({ adminId: result._id });
     })
     .catch((err) => {
       if (!err.statusCode) {
@@ -72,7 +70,6 @@ exports.login = (req, res, next) => {
       res.status(200).json({
         token: token,
         adminId: loadAdmin._id.toString(),
-        message: "Login successfully.",
       });
     })
     .catch((err) => {

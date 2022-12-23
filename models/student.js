@@ -40,6 +40,10 @@ const studentSchema = new Schema(
       type: Array,
       default: [],
     },
+    year: {
+      type: Number,
+      required: true,
+    },
   },
   { timestamps: true }
 );
