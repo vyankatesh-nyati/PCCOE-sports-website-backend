@@ -52,7 +52,14 @@ router.post(
       .trim()
       .not()
       .isEmpty()
-      .withMessage("Please enter valid prn number!"),
+      .withMessage("Please enter valid prn number!")
+      .custom((value, { req }) => {
+        return Student.findOne({ prn: value }).then((findPrn) => {
+          if (findPrn) {
+            return Promise.reject("Prn already exists!");
+          }
+        });
+      }),
     body("department")
       .trim()
       .not()

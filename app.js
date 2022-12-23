@@ -7,6 +7,7 @@ const authRoutes = require("./routes/auth");
 const dataRoutes = require("./routes/data");
 const studentRoutes = require("./routes/student");
 const queriesRoutes = require("./routes/queries");
+const sportsRoutes = require("./routes/sports");
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use("/auth", authRoutes);
 app.use("/", dataRoutes);
 app.use("/student", studentRoutes);
 app.use("/query", queriesRoutes);
+app.use("/sports", sportsRoutes);
 
 app.use((error, req, res, next) => {
   console.log(error);
