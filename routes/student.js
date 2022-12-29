@@ -3,6 +3,8 @@ const { body } = require("express-validator");
 
 const studentController = require("../controllers/student");
 
+const isAuth = require("../middleware/is-auth");
+
 const Student = require("../models/student");
 
 const router = express.Router();
@@ -78,5 +80,88 @@ router.post(
   ],
   studentController.signup
 );
+
+// UPDATE  /student/:studentId
+router.post(
+  "/:studentId",
+  isAuth,
+  [
+    body("firstName")
+      .trim()
+      .not()
+      .isEmpty()
+      .withMessage("Please enter valid first name"),
+    body("middleName")
+      .trim()
+      .not()
+      .isEmpty()
+      .withMessage("Please enter valid middle name"),
+    body("lastName")
+      .trim()
+      .not()
+      .isEmpty()
+      .withMessage("Please enter valid last name"),
+    body("email")
+      .isEmail()
+      .withMessage("Please Enter valid email")
+      .custom((value, { req }) => {
+        return Student.findOne({ email: value }).then((foundStudent) => {
+          if (
+            foundStudent &&
+            foundStudent._id.toString() !== req.params.studentId
+          ) {
+            return Promise.reject(
+              "Email id already exists! Please enter valid email."
+            );
+          }
+        });
+      }),
+    body("phone")
+      .isLength({ min: 0, max: 10 })
+      .withMessage("Please enter valid phone number")
+      .custom((value, { req }) => {
+        return Student.findOne({ phone: value }).then((foundNumber) => {
+          if (
+            foundNumber &&
+            foundNumber._id.toString() !== req.params.studentId
+          ) {
+            return Promise.reject("Phone number already exists!");
+          }
+        });
+      }),
+    body("prn")
+      .trim()
+      .not()
+      .isEmpty()
+      .withMessage("Please enter valid prn number!")
+      .custom((value, { req }) => {
+        return Student.findOne({ prn: value }).then((findPrn) => {
+          if (findPrn && findPrn._id.toString() !== req.params.studentId) {
+            console.log(findPrn);
+            return Promise.reject("Prn already exists!");
+          }
+        });
+      }),
+    body("department")
+      .trim()
+      .not()
+      .isEmpty()
+      .withMessage("Please enter valid department name!"),
+    body("division")
+      .trim()
+      .not()
+      .isEmpty()
+      .withMessage("Please enter valid division name!"),
+    body("gender")
+      .trim()
+      .not()
+      .isEmpty()
+      .withMessage("Please enter valid gender!"),
+  ],
+  studentController.updateStudent
+);
+
+// DELETE  /student/:studentId
+router.delete("/:studentId", isAuth, studentController.deleteStudent);
 
 module.exports = router;
