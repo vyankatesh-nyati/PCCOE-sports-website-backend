@@ -8,6 +8,7 @@ const dataRoutes = require("./routes/data");
 const studentRoutes = require("./routes/student");
 const queriesRoutes = require("./routes/queries");
 const sportsRoutes = require("./routes/sports");
+const teamRoutes = require("./routes/team");
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use("/", dataRoutes);
 app.use("/student", studentRoutes);
 app.use("/query", queriesRoutes);
 app.use("/sports", sportsRoutes);
+app.use("/team", teamRoutes);
 
 app.use((error, req, res, next) => {
   console.log(error);

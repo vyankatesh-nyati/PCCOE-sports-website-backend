@@ -120,7 +120,6 @@ exports.deleteStudent = (req, res, next) => {
       return Student.findByIdAndRemove(studentId);
     })
     .then((result) => {
-      console.log(result);
       res.status(200).json({ message: "Student deleted!" });
     })
     .catch((err) => {
